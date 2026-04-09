@@ -81,14 +81,6 @@ export default function Services({ brand }: any) {
                     {s.price}
                   </span>
                 </div>
-
-                <div
-                  className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 text-white shadow-lg ${
-                    brand.bgColor
-                  } ${brand.hoverBg} ${brand.shadow} group-hover:translate-x-1 active:scale-90`}
-                >
-                  <ChevronRight size={24} />
-                </div>
               </div>
             </div>
           ))}
