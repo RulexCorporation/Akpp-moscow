@@ -96,9 +96,7 @@ export default function ServicesClient() {
 
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false); // Для индикации загрузки
-
-  // Добавляем локальные стейты для формы
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
@@ -124,11 +122,19 @@ export default function ServicesClient() {
     };
 
     try {
-      await fetch("https://moskva-akpp.ru/send_tg.php", {
+      const response = await fetch("/api/send-tg", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(data),
       });
-      setIsSubmitted(true);
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        throw new Error("Ошибка отправки");
+      }
     } catch (error) {
       console.error(error);
       alert("Ошибка отправки. Попробуйте позже.");
@@ -194,6 +200,7 @@ export default function ServicesClient() {
           ))}
         </div>
       </div>
+
       <div className="mt-20 ml-[3%] mr-[3%] bg-slate-900 rounded-[40px] p-8 md:p-12 relative overflow-hidden">
         <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="text-center lg:text-left">
@@ -214,10 +221,9 @@ export default function ServicesClient() {
             </a>
           </div>
         </div>
-
-        {/* Декоративный элемент фона */}
         <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-96 h-96 bg-blue-500/10 blur-[100px] rounded-full"></div>
       </div>
+
       {selectedService && (
         <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
           <div

@@ -13,8 +13,11 @@ export default function ContactForm({ brand }: any) {
     setLoading(true);
 
     try {
-      await fetch("https://moskva-akpp.ru/send_tg.php", {
+      const response = await fetch("/api/send-tg", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           name,
           phone,
@@ -22,9 +25,14 @@ export default function ContactForm({ brand }: any) {
           source: "Контактная форма",
         }),
       });
-      setIsSent(true);
+
+      if (response.ok) {
+        setIsSent(true);
+      } else {
+        throw new Error("Ошибка отправки");
+      }
     } catch (error) {
-      alert("Ошибка отправки.");
+      alert("Ошибка отправки. Попробуйте позже.");
     } finally {
       setLoading(false);
     }

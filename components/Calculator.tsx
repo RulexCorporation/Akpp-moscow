@@ -21,7 +21,6 @@ export default function Calculator({ brand }: any) {
   const [success, setSuccess] = useState(false);
 
   const handleSelect = (option: any) => {
-    // ЛОГИКА: если выбрана диагностика, итоговая цена всегда 0
     if (option.label.toLowerCase().includes("диагностика")) {
       setTotal(0);
     } else {
@@ -61,8 +60,7 @@ export default function Calculator({ brand }: any) {
     };
 
     try {
-      // Путь к вашему PHP файлу на Jino
-      const response = await fetch("https://moskva-akpp.ru/send_tg.php", {
+      const response = await fetch("/api/send-tg", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -160,7 +158,6 @@ export default function Calculator({ brand }: any) {
                 )}
               </>
             ) : success ? (
-              /* Экран Успеха */
               <div className="text-center py-12 animate-in fade-in zoom-in duration-500">
                 <div
                   className={`inline-flex items-center justify-center w-24 h-24 bg-green-100 text-green-600 rounded-full mb-6`}
@@ -182,7 +179,6 @@ export default function Calculator({ brand }: any) {
                 </button>
               </div>
             ) : (
-              /* Финальный экран ввода данных */
               <div className="text-center py-4">
                 <div
                   className={`inline-flex items-center justify-center w-20 h-20 ${brand.lightBg} ${brand.themeColor} rounded-full mb-6`}
