@@ -124,7 +124,7 @@ export default function ServicesClient() {
     };
 
     try {
-      await fetch("https://remont-akkp.ru/send_tg.php", {
+      await fetch("https://moskva-akpp.ru/send_tg.php", {
         method: "POST",
         body: JSON.stringify(data),
       });

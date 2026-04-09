@@ -13,7 +13,7 @@ export default function ContactForm({ brand }: any) {
     setLoading(true);
 
     try {
-      await fetch("https://remont-akkp.ru/send_tg.php", {
+      await fetch("https://moskva-akpp.ru/send_tg.php", {
         method: "POST",
         body: JSON.stringify({
           name,

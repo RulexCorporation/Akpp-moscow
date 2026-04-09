@@ -62,7 +62,7 @@ export default function Calculator({ brand }: any) {
 
     try {
       // Путь к вашему PHP файлу на Jino
-      const response = await fetch("https://remont-akkp.ru/send_tg.php", {
+      const response = await fetch("https://moskva-akpp.ru/send_tg.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
