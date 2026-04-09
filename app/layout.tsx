@@ -13,9 +13,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className="scroll-smooth">
       <body className="antialiased">
-        <Suspense fallback={<div>Загрузка...</div>}>
-          <Template>{children}</Template>
-        </Suspense>
+        <Suspense fallback={<div>Загрузка...</div>}>{children}</Suspense>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
