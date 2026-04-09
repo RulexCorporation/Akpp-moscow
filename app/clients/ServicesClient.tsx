@@ -94,14 +94,17 @@ export default function ServicesClient() {
   const brandParam = searchParams.get("brand") as keyof typeof BRANDS;
   const brand = BRANDS[brandParam] || BRANDS.ATT24;
 
-  const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [selectedService, setSelectedService] = useState<{
+    title: string;
+    price: string;
+  } | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
-  const handleBooking = (title: string) => {
-    setSelectedService(title);
+  const handleBooking = (service: { title: string; price: string }) => {
+    setSelectedService(service);
     setIsSubmitted(false);
     setName("");
     setPhone("");
@@ -116,7 +119,8 @@ export default function ServicesClient() {
     const data = {
       name,
       phone,
-      service: selectedService,
+      service: selectedService?.title,
+      servicePrice: selectedService?.price,
       brand: brand.name,
       source: "Модалка услуг",
     };
@@ -191,7 +195,9 @@ export default function ServicesClient() {
               </div>
 
               <button
-                onClick={() => handleBooking(s.title)}
+                onClick={() =>
+                  handleBooking({ title: s.title, price: s.price })
+                }
                 className={`w-full hover:cursor-pointer py-4 rounded-2xl border-2 border-slate-200 font-black text-slate-900 transition-all flex items-center justify-center gap-2 ${brand.id === "ATT24" ? "hover:bg-red-600 hover:border-red-600" : "hover:bg-blue-600 hover:border-blue-600"} hover:text-white`}
               >
                 Записаться
@@ -224,6 +230,7 @@ export default function ServicesClient() {
         <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-96 h-96 bg-blue-500/10 blur-[100px] rounded-full"></div>
       </div>
 
+      {/* Модалка */}
       {selectedService && (
         <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
           <div
@@ -233,7 +240,7 @@ export default function ServicesClient() {
           <div className="relative w-full max-w-lg bg-white rounded-[40px] shadow-2xl overflow-hidden">
             <button
               onClick={closeMenu}
-              className="absolute right-6 top-6 p-2 text-slate-400 hover:text-slate-900 transition-colors"
+              className="absolute right-6 top-6 p-2 text-slate-400 hover:text-slate-900 transition-colors z-10"
             >
               <X size={24} />
             </button>
@@ -249,12 +256,21 @@ export default function ServicesClient() {
                   <h3 className="text-3xl font-black text-slate-900 mb-2">
                     Запись на сервис
                   </h3>
-                  <p className="text-slate-500 font-medium mb-8">
-                    Услуга:{" "}
-                    <span className="text-slate-900 font-bold">
-                      {selectedService}
-                    </span>
-                  </p>
+
+                  {/* Блок с выбранной услугой */}
+                  <div className="bg-slate-50 rounded-2xl p-4 mb-6 text-left">
+                    <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">
+                      Вы выбрали:
+                    </p>
+                    <p className="text-lg font-black text-slate-900">
+                      {selectedService.title}
+                    </p>
+                    <p
+                      className={`text-2xl font-black ${brand.themeColor} mt-1`}
+                    >
+                      {selectedService.price}
+                    </p>
+                  </div>
 
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="relative group text-left">
@@ -304,6 +320,12 @@ export default function ServicesClient() {
                   <h3 className="text-3xl font-black text-slate-900 mb-2">
                     Заявка принята!
                   </h3>
+                  <p className="text-slate-500 font-medium mb-4">
+                    Вы записаны на услугу:
+                  </p>
+                  <p className="font-black text-slate-900 mb-6">
+                    {selectedService.title}
+                  </p>
                   <p className="text-slate-500 font-medium mb-8">
                     Свяжемся с вами в течение 5 минут.
                   </p>
